@@ -54,32 +54,3 @@ test('Doesnt Returns good morning in the incorrect time', () => {
 
     expect(result).toBe("Hello Rony");
 });
-
-function isAfter(currentTime, hours, minutes, seconds) {
-    const currentHours = currentTime.getHours();
-    const currentMinutes = currentTime.getMinutes();
-    const currentSeconds = currentTime.getSeconds();
-    if (currentMinutes > minutes || currentSeconds > seconds){
-        return true
-    }else{
-        return false;
-    }
-}
-
-test('isAfter gives true with seconds', () => {
-    const currentTime = new Date('December 17, 1995 12:00:01');
-    const result = isAfter(currentTime, 12, 0, 0)
-    expect(result).toBe(true);
-});
-
-test('isAfter gives false', () => {
-    const currentTime = new Date('December 17, 1995 12:00:01');
-    const result = isAfter(currentTime, 12, 0, 1)
-    expect(result).toBe(false);
-});
-
-test('isAfter gives true with minutes', () => {
-    const currentTime = new Date('December 17, 1995 12:10:01');
-    const result = isAfter(currentTime, 12, 0, 9)
-    expect(result).toBe(true);
-});
