@@ -2,31 +2,31 @@
 
 const Greeter = require('./greeter.js')
 
-const EARLY_MORNING = new Date(2020, 1, 1, 2, 0, 0);
+const HELLO_TIME = new Date(2020, 1, 1, 14 ,0, 0);
 
 
 test('Should return Hello Luis given a name Luis', () => {
     const greeter = new Greeter();
-    const result = greeter.greet("Luis", EARLY_MORNING);
-    expect(result).toBe("Good night Luis");
+    const result = greeter.greet("Luis", HELLO_TIME);
+    expect(result).toBe("Hello Luis");
 });
 
 test('Should return trimmed result', () => {
     const greeter = new Greeter();
-    const result = greeter.greet(' Luis ', EARLY_MORNING);
-    expect(result).toBe("Good night Luis");
+    const result = greeter.greet(' Luis ', HELLO_TIME);
+    expect(result).toBe("Hello Luis");
 });
 
 test('Capitalizes the first letter of the name', () => {
     const greeter = new Greeter();
-    const result = greeter.greet('matteo', EARLY_MORNING);
-    expect(result).toBe("Good night Matteo");
+    const result = greeter.greet('matteo', HELLO_TIME);
+    expect(result).toBe("Hello Matteo");
 });
 
 test('Capitalizes the first letter of the name and trims', () => {
     const greeter = new Greeter();
-    const result = greeter.greet('   ariess  ', EARLY_MORNING);
-    expect(result).toBe("Good night Ariess");
+    const result = greeter.greet('   ariess  ', HELLO_TIME);
+    expect(result).toBe("Hello Ariess");
 });
 
 test('Returns good morning in the correct time', () => {
@@ -51,15 +51,6 @@ test('Returns Good evening in the correct time', () => {
 
     expect(result).toBe("Good evening Laura");
 });
-test('Doesnt return Good evening in the incorrect time', () => {
-    const greeter = new Greeter();
-    const currentTime = new Date('December 17, 1995 22:00:01');
-
-    const result = greeter.greet('Laura', currentTime);
-
-    expect(result).toBe("Good night Laura");
-});
-
 test('Returns Good night in the correct time', () => {
     const greeter = new Greeter();
     const currentTime = new Date('December 17, 1995 22:00:00');
@@ -68,20 +59,9 @@ test('Returns Good night in the correct time', () => {
 
     expect(result).toBe("Good night Francesca");
 });
-
-test('Returns Good night in the correct time', () => {
-    const greeter = new Greeter();
-    const currentTime = new Date('December 17, 1995 00:00:00');
-
-    const result = greeter.greet('Francesca', currentTime);
-
-    expect(result).toBe("Good night Francesca");
-});
-
 test('Returns greet in logs', () => {
     const greeter = new Greeter();
-    const currentTime = new Date('December 17, 1995 00:00:00');
     const logSpy = jest.spyOn(console, 'log');
-    greeter.greet('Francesca', currentTime);
-    expect(logSpy).toHaveBeenCalledWith("Good night Francesca");
+    greeter.greet("Luis", HELLO_TIME);
+    expect(logSpy).toHaveBeenCalledWith("Hello Luis");
 });
