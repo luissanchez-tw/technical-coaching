@@ -23,10 +23,13 @@ test('Capitalizes the first letter of the name and trims', () => {
 
 
 test('Returns greet in logs', () => {
-    const greeter = new Greeter();
-    const logSpy = jest.spyOn(console, 'log');
+    let argumentToLogToUser;
+    function logToUser(greet){
+        return argumentToLogToUser = greet;
+    }
+    const greeter = new Greeter(logToUser);
     greeter.greet("Luis", HELLO_TIME);
-    expect(logSpy).toHaveBeenCalledWith("Hello Luis");
+    expect(argumentToLogToUser).toBe("Hello Luis");
 });
 
 [

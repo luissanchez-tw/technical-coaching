@@ -5,7 +5,17 @@ function isAfter(currentTime, hours, minutes, seconds) {
     return currentTime.getTime() > comparedDate.getTime();
 }
 
+function defaultLogToUserFuntion(greet){
+    console.log(greet);
+}
+
+
 class Greeter {
+
+    constructor(logToUserFunction  = defaultLogToUserFuntion) {
+        this.logToUserFunction = logToUserFunction;
+    }
+
     greet(name, currentTime) {
         let greet;
         const trimmedName = name.trim();
@@ -19,7 +29,7 @@ class Greeter {
         } else {
             greet = "Hello "+ nameCapitalized;
         }
-        console.log(greet)
+        this.logToUserFunction(greet);
         return greet;
     }
 }
