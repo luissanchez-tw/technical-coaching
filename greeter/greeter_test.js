@@ -3,14 +3,6 @@
 const Greeter = require('./greeter.js')
 
 const HELLO_TIME = new Date(2020, 1, 1, 14 ,0, 0);
-
-
-test('Should return Hello Luis given a name Luis', () => {
-    const greeter = new Greeter();
-    const result = greeter.greet("Luis", HELLO_TIME);
-    expect(result).toBe("Hello Luis");
-});
-
 test('Should return trimmed result', () => {
     const greeter = new Greeter();
     const result = greeter.greet(' Luis ', HELLO_TIME);
@@ -29,39 +21,30 @@ test('Capitalizes the first letter of the name and trims', () => {
     expect(result).toBe("Hello Ariess");
 });
 
-test('Returns good morning in the correct time', () => {
-    const greeter = new Greeter();
-    const currentTime = new Date('December 17, 1995 06:24:00');
-    const result = greeter.greet('Rony', currentTime);
-    expect(result).toBe("Good morning Rony");
-});
 
-test('Doesnt Returns good morning in the incorrect time', () => {
-    const greeter = new Greeter();
-    const currentTime = new Date('December 17, 1995 12:00:01');
-    const result = greeter.greet('Rony', currentTime);
-    expect(result).toBe("Hello Rony");
-});
-
-test('Returns Good evening in the correct time', () => {
-    const greeter = new Greeter();
-    const currentTime = new Date('December 17, 1995 18:00:00');
-
-    const result = greeter.greet('Laura', currentTime);
-
-    expect(result).toBe("Good evening Laura");
-});
-test('Returns Good night in the correct time', () => {
-    const greeter = new Greeter();
-    const currentTime = new Date('December 17, 1995 22:00:00');
-
-    const result = greeter.greet('Francesca', currentTime);
-
-    expect(result).toBe("Good night Francesca");
-});
 test('Returns greet in logs', () => {
     const greeter = new Greeter();
     const logSpy = jest.spyOn(console, 'log');
     greeter.greet("Luis", HELLO_TIME);
     expect(logSpy).toHaveBeenCalledWith("Hello Luis");
 });
+
+[
+    {currentTime: "5:59:59", expectedGreet: "Good night"},
+    {currentTime: "6:00:00", expectedGreet: "Good morning"},
+    {currentTime: "12:00:00", expectedGreet: "Good morning"},
+    {currentTime: "12:00:01", expectedGreet: "Hello"},
+    {currentTime: "12:01:00", expectedGreet: "Hello"},
+    {currentTime: "17:59:59", expectedGreet: "Hello"},
+    {currentTime: "18:00:00", expectedGreet: "Good evening"},
+    {currentTime: "21:59:59", expectedGreet: "Good evening"},
+    {currentTime: "22:00:00", expectedGreet: "Good night"},
+
+].forEach( (it)=>{
+        test(`Returns ${it.expectedGreet} for the time ${it.currentTime}`, () => {
+            const greeter = new Greeter();
+            const currentDate= new Date('December 17, 1995 '+it.currentTime);
+            const result = greeter.greet('Matteo', currentDate);
+            expect(result).toBe(it.expectedGreet+" Matteo");
+        })
+})
