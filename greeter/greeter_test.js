@@ -3,6 +3,13 @@
 const Greeter = require('./greeter.js')
 
 const HELLO_TIME = new Date(2020, 1, 1, 14 ,0, 0);
+
+test("it works even if we don't pass the current time ", () => {
+    const greeter = new Greeter();
+    const result = greeter.greet('Luis');
+    expect(result).toMatch(/Luis$/);
+});
+
 test('Should return trimmed result', () => {
     const greeter = new Greeter();
     const result = greeter.greet(' Luis ', HELLO_TIME);

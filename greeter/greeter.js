@@ -16,7 +16,7 @@ class Greeter {
         this.logToUserFunction = logToUserFunction;
     }
 
-    greet(name, currentTime) {
+    greet(name, currentTime = new Date()) {
         let greet;
         const trimmedName = name.trim();
         const nameCapitalized = trimmedName.charAt(0).toUpperCase() + trimmedName.slice(1);
