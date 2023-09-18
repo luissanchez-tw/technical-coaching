@@ -3,18 +3,19 @@
 class Hotel {
 
     constructor() {
-        this.previousBookingStart = undefined;
-        this.previousBookingEnd = undefined;
+        this.previousStart = undefined;
+        this.previousEnd = undefined;
     }
 
-    book(startDateOfBooking, endDateOfBooking) {
-        if ((startDateOfBooking > this.previousBookingStart && startDateOfBooking < this.previousBookingEnd) ||
-            (endDateOfBooking > this.previousBookingStart && endDateOfBooking < this.previousBookingEnd) ||
-            (startDateOfBooking === this.previousBookingStart && endDateOfBooking === this.previousBookingEnd)) {
+    book(startDate, endDate) {
+        if ((startDate > this.previousStart     && startDate < this.previousEnd) ||
+            (endDate > this.previousStart       && endDate < this.previousEnd) ||
+            (startDate === this.previousStart   && endDate === this.previousEnd) ||
+            startDate < this.previousStart      && endDate > this.previousEnd) {
             return "BOOKING_NOT_ALLOWED";
         } else {
-            this.previousBookingStart = startDateOfBooking;
-            this.previousBookingEnd = endDateOfBooking;
+            this.previousStart = startDate;
+            this.previousEnd = endDate;
             return "BOOKING CONFIRMED";
         }
 

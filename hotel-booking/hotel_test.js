@@ -46,7 +46,6 @@ test('booking then new booking right before', () => {
     expect(result).toBe("BOOKING CONFIRMED");
 });
 
-// One booking(2023/10/01 2023/10/04) -> book(2023/09/01 2023/10/02) -> NOT OK
 test('booking overlapping the first night', () => {
     hotel.book(date(10, 1), date(10, 4));
 
@@ -67,6 +66,14 @@ test('booking overlapping the last night', () => {
     hotel.book(date(10, 1), date(10, 4));
 
     const result = hotel.book(date(10, 3), date(10, 4));
+
+    expect(result).toBe("BOOKING_NOT_ALLOWED");
+});
+
+test('booking before and after old booking', () => {
+    hotel.book(date(10, 5), date(10, 6));
+
+    const result = hotel.book(date(10, 4), date(10, 7));
 
     expect(result).toBe("BOOKING_NOT_ALLOWED");
 });
