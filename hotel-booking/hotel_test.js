@@ -3,15 +3,16 @@
 const Hotel = require('./hotel.js')
 
 let hotel;
-beforeEach(() => {
-    hotel = new Hotel();
-})
+
 
 function date(month, day) {
     return new Date(2023, month, day);
 }
 
 describe("check that we don't allow overlapping bookings", () => {
+    beforeEach(() => {
+        hotel = new Hotel({totalCapacity:1});
+    });
 
     test('booking without previous bookings', () => {
         const startDate = date(10, 1);
@@ -89,6 +90,10 @@ describe("check that we don't allow overlapping bookings", () => {
 
 describe("when we have many bookings", () => {
 
+    beforeEach(() => {
+        hotel = new Hotel({totalCapacity:1});
+    });
+
     test('booking when date is taken', () => {
         hotel.book(date(11, 1), date(11, 2));
         hotel.book(date(10, 1), date(10, 2));
@@ -97,6 +102,21 @@ describe("when we have many bookings", () => {
         const result = hotel.book(date(10, 1), date(10, 2));
 
         expect(result).toBe("BOOKING_NOT_ALLOWED");
+    });
+
+});
+
+describe("when we have 2 rooms and many bookings", () => {
+
+    beforeEach(() => {
+        hotel = new Hotel({totalCapacity:2});
+    });
+
+    xtest('booking when date is taken but there are free rooms', () => {
+        hotel.book(date(10, 1), date(10, 2));
+        const result = hotel.book(date(10, 1), date(10, 2));
+
+        expect(result).toBe("BOOKING_CONFIRMED");
     });
 
 });
