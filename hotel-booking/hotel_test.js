@@ -89,9 +89,10 @@ describe("check that we don't allow overlapping bookings", () => {
 
 describe("when we have many bookings", () => {
 
-    xtest('booking when date is taken', () => {
-        hotel.book(date(10, 1), date(10, 2));
+    test('booking when date is taken', () => {
         hotel.book(date(11, 1), date(11, 2));
+        hotel.book(date(10, 1), date(10, 2));
+
 
         const result = hotel.book(date(10, 1), date(10, 2));
 

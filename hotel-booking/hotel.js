@@ -5,6 +5,12 @@ class Booking {
         this.start = start;
         this.end = end;
     }
+
+    isOverlapped(startDate,endDate){
+        return (startDate >= this.start && startDate < this.end) ||
+        (endDate > this.start && endDate < this.end) ||
+        startDate < this.start && endDate >= this.end
+    }
 }
 
 class Hotel {
@@ -17,8 +23,6 @@ class Hotel {
         if (this.isNotAllowed(startDate, endDate)) {
             return "BOOKING_NOT_ALLOWED";
         } else {
-            this.previousStart = startDate;
-            this.previousEnd = endDate;
             const booking = new Booking(startDate, endDate);
             this.bookings.push(booking);
             return "BOOKING CONFIRMED";
@@ -27,13 +31,7 @@ class Hotel {
     }
 
     isNotAllowed(startDate, endDate) {
-        if (this.bookings.length === 0) {
-            return false;
-        }
-        const booking = this.bookings[0];
-        return (startDate >= booking.start && startDate < booking.end) ||
-            (endDate > booking.start && endDate < booking.end) ||
-            startDate < booking.start && endDate >= booking.end;
+        return this.bookings.some(currentBooking => currentBooking.isOverlapped(startDate,endDate))
     }
 }
 
