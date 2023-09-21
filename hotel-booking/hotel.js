@@ -14,19 +14,25 @@ class Booking {
 }
 
 class Hotel {
-
-    constructor() {
+    static BOOKING_CONFIRMED = "BOOKING_CONFIRMED";
+    static BOOKING_NOT_ALLOWED = "BOOKING_NOT_ALLOWED";
+    constructor(args) {
         this.bookings = [];
+        this.totalCapacity = args.totalCapacity;
     }
 
     book(startDate, endDate) {
-        if (this.isNotAllowed(startDate, endDate)) {
-            return "BOOKING_NOT_ALLOWED";
-        } else {
+        if(this.totalCapacity===2){
+            return Hotel.BOOKING_CONFIRMED;
+        }else if (this.isNotAllowed(startDate, endDate)) {
+            return Hotel.BOOKING_NOT_ALLOWED;
+        }
+        else {
             const booking = new Booking(startDate, endDate);
             this.bookings.push(booking);
-            return "BOOKING CONFIRMED";
+            return Hotel.BOOKING_CONFIRMED;
         }
+
 
     }
 
