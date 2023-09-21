@@ -120,3 +120,41 @@ describe("when we have 2 rooms and many bookings", () => {
     });
 
 });
+
+describe("rooms booked given a range", () => {
+    beforeEach(() => {
+        hotel = new Hotel({totalCapacity:2});
+    });
+
+    test('rooms booked are 0 in a given range', () => {
+        const result = hotel.getRoomsBookedInRange(date(10, 1), date(10, 2))
+
+        expect(result).toBe(0);
+    });
+
+    test('rooms booked are 0 because other booking is not overlapping', () => {
+        hotel.book(date(10, 2), date(10, 3));
+
+        const result = hotel.getRoomsBookedInRange(date(10, 1), date(10, 2))
+
+        expect(result).toBe(0);
+    });
+
+    test('rooms booked are 1 in a given range', () => {
+        hotel.book(date(10, 1), date(10, 2));
+
+        const result = hotel.getRoomsBookedInRange(date(10, 1), date(10, 2))
+
+        expect(result).toBe(1);
+    });
+
+    test('rooms booked are 2 in a given range', () => {
+        hotel.book(date(10, 1), date(10, 2));
+        hotel.book(date(10, 3), date(10, 4));
+
+        const result = hotel.getRoomsBookedInRange(date(10, 1), date(10, 5))
+
+        expect(result).toBe(2);
+    });
+
+});

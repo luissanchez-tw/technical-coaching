@@ -22,9 +22,7 @@ class Hotel {
     }
 
     book(startDate, endDate) {
-        if(this.totalCapacity===2){
-            return Hotel.BOOKING_CONFIRMED;
-        }else if (this.isNotAllowed(startDate, endDate)) {
+        if (this.totalCapacity - this.getRoomsBookedInRange(startDate,endDate) === 0) {
             return Hotel.BOOKING_NOT_ALLOWED;
         }
         else {
@@ -32,12 +30,10 @@ class Hotel {
             this.bookings.push(booking);
             return Hotel.BOOKING_CONFIRMED;
         }
-
-
     }
 
-    isNotAllowed(startDate, endDate) {
-        return this.bookings.some(currentBooking => currentBooking.isOverlapped(startDate,endDate))
+    getRoomsBookedInRange(startDate, endDate) {
+        return this.bookings.filter(b => b.isOverlapped(startDate, endDate)).length;
     }
 }
 
