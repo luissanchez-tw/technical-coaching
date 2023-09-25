@@ -1,17 +1,16 @@
 'use strict';
+const Range = require('./range.js')
 
 class Booking {
-    constructor(start, end) {
-        this.start = start;
-        this.end = end;
+    constructor(range) {
+        this.range = range;
     }
 
-    isOverlapped(startDate, endDate) {
-        return (startDate >= this.start && startDate < this.end) ||
-            (endDate > this.start && endDate < this.end) ||
-            startDate < this.start && endDate >= this.end
+    isOverlapped(range) {
+        return this.range.isOverlapped(range);
     }
 }
+
 
 class Hotel {
     static BOOKING_CONFIRMED = "BOOKING_CONFIRMED";
@@ -23,8 +22,9 @@ class Hotel {
     }
 
     book(startDate, endDate) {
-        if (this.getFreeCapacityForThisRange(startDate, endDate) > 0) {
-            const booking = new Booking(startDate, endDate);
+        const range = new Range(startDate, endDate);
+        if (this.getFreeCapacityForThisRange(range) > 0) {
+            const booking = new Booking(range);
             this.bookings.push(booking);
             return Hotel.BOOKING_CONFIRMED;
         } else {
@@ -32,13 +32,12 @@ class Hotel {
         }
     }
 
-
-    getFreeCapacityForThisRange(startDate, endDate) {
-        return this.totalCapacity - this.getRoomsBookedInRange(startDate, endDate);
+    getFreeCapacityForThisRange(range) {
+        return this.totalCapacity - this.getRoomsBookedInRange(range);
     }
 
-    getRoomsBookedInRange(startDate, endDate) {
-        return this.bookings.filter(b => b.isOverlapped(startDate, endDate)).length;
+    getRoomsBookedInRange(range) {
+        return this.bookings.filter(b => b.isOverlapped(range)).length;
     }
 }
 

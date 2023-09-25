@@ -1,7 +1,7 @@
 'use strict';
 
 const Hotel = require('./hotel.js')
-
+const Range = require('./range.js')
 let hotel;
 
 
@@ -11,7 +11,7 @@ function date(month, day) {
 
 describe("check that we don't allow overlapping bookings", () => {
     beforeEach(() => {
-        hotel = new Hotel({totalCapacity:1});
+        hotel = new Hotel({totalCapacity: 1});
     });
 
     test('booking without previous bookings', () => {
@@ -91,7 +91,7 @@ describe("check that we don't allow overlapping bookings", () => {
 describe("when we have many bookings", () => {
 
     beforeEach(() => {
-        hotel = new Hotel({totalCapacity:1});
+        hotel = new Hotel({totalCapacity: 1});
     });
 
     test('booking when date is taken', () => {
@@ -109,7 +109,7 @@ describe("when we have many bookings", () => {
 describe("when we have 2 rooms and many bookings", () => {
 
     beforeEach(() => {
-        hotel = new Hotel({totalCapacity:2});
+        hotel = new Hotel({totalCapacity: 2});
     });
 
     test('booking when date is taken but there are free rooms', () => {
@@ -123,7 +123,7 @@ describe("when we have 2 rooms and many bookings", () => {
 
 describe("rooms booked given a range", () => {
     beforeEach(() => {
-        hotel = new Hotel({totalCapacity:2});
+        hotel = new Hotel({totalCapacity: 2});
     });
 
     test('rooms booked are 0 in a given range', () => {
@@ -143,7 +143,7 @@ describe("rooms booked given a range", () => {
     test('rooms booked are 1 in a given range', () => {
         hotel.book(date(10, 1), date(10, 2));
 
-        const result = hotel.getRoomsBookedInRange(date(10, 1), date(10, 2))
+        const result = hotel.getRoomsBookedInRange(new Range(date(10, 1), date(10, 2)));
 
         expect(result).toBe(1);
     });
@@ -152,7 +152,7 @@ describe("rooms booked given a range", () => {
         hotel.book(date(10, 1), date(10, 2));
         hotel.book(date(10, 3), date(10, 4));
 
-        const result = hotel.getRoomsBookedInRange(date(10, 1), date(10, 5))
+        const result = hotel.getRoomsBookedInRange(new Range(date(10, 1), date(10, 5)));
 
         expect(result).toBe(2);
     });
