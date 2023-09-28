@@ -11,13 +11,18 @@ beforeEach(() => {
 });
 
 describe('Shortening the url', () => {
-    xtest('it returns 201', () => {
+    test('it returns 201', () => {
         const {statusCode} = controller.handle('/url/shorten', {}, {url: 'https://www.google.com'});
 
         expect(statusCode).toBe(201);
     });
 
-    xtest('it shortens the url', () => {
+    test('it shortens the url', () => {
+        randomNumberGenerator.generate.mockReturnValue(6789)
+
+        const {body} = controller.handle('/url/shorten', {}, {url: 'https://www.google.com'});
+
+        expect(body.shortenedUrl).toMatch('https://tw.ks/6789');
     });
 
     xtest('it saves the url in the database', () => {

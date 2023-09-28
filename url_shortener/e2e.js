@@ -48,7 +48,7 @@ describe('URL Shortener', () => {
         return body.shortenedUrl;
     }
 
-    xtest('shortens the url', async () => {
+    test('shortens the url', async () => {
         const shortenedUrl = await shortenUrl();
         expect(shortenedUrl).toMatch(/https:\/\/tw.ks\/\d+/);
     });
