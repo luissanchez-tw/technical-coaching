@@ -53,7 +53,7 @@ describe('URL Shortener', () => {
         expect(shortenedUrl).toMatch(/https:\/\/tw.ks\/\d+/);
     });
 
-    xtest('retrieves the url', async () => {
+    test('retrieves the url', async () => {
         const shortenedUrl = await shortenUrl();
         const {originalUrl} = await getJSON(`${BASE_URL}/url/retrieve?shortenedUrl=${shortenedUrl}`);
         expect(originalUrl).toEqual("https://www.google.com");

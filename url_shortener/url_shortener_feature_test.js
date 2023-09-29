@@ -4,7 +4,11 @@ const randomNumberGenerator = {
     generate: jest.fn(),
 }
 
-const controller = new UrlShortenerController(randomNumberGenerator);
+const repository = {
+    save: jest.fn()
+}
+
+const controller = new UrlShortenerController(randomNumberGenerator,repository);
 
 beforeEach(() => {
     jest.clearAllMocks();
@@ -18,14 +22,20 @@ describe('Shortening the url', () => {
     });
 
     test('it shortens the url', () => {
-        randomNumberGenerator.generate.mockReturnValue(6789)
+        randomNumberGenerator.generate.mockReturnValue('6789');
 
         const {body} = controller.handle('/url/shorten', {}, {url: 'https://www.google.com'});
 
         expect(body.shortenedUrl).toMatch('https://tw.ks/6789');
     });
 
-    xtest('it saves the url in the database', () => {
+    test('it saves the url in the database', () => {
+        randomNumberGenerator.generate.mockReturnValue('1234');
+
+        const {body} = controller.handle('/url/shorten', {}, {url: 'https://www.google.com'});
+
+        expect(repository.save.mock.calls.length).toEqual(1);
+        expect(repository.save.mock.calls[0]).toEqual(['1234', 'https://www.google.com']);
     });
 });
 
