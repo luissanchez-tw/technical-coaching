@@ -4,7 +4,7 @@ const randomNumberGenerator = {
     generate: jest.fn(),
 }
 
-const controller = new UrlShortenerController();
+const controller = new UrlShortenerController(randomNumberGenerator);
 
 beforeEach(() => {
     jest.clearAllMocks();

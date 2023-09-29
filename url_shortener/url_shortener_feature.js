@@ -1,9 +1,13 @@
 class UrlShortenerController {
-    constructor() {
+    constructor(randomNumberGenerator) {
+        this.randomNumberGenerator = randomNumberGenerator
     }
 
     handle(url, params, payload) {
-        const shortenedUrl = `https://tw.ks/1234`
+        console.log("We arrived before randomnumber!")
+        const randomNumber = this.randomNumberGenerator.generate();
+        console.log("We arrived after randomnumber: "+randomNumber)
+        const shortenedUrl = `https://tw.ks/${randomNumber}`;
         return {statusCode : 201, body: {shortenedUrl: shortenedUrl}};
     }
 }
