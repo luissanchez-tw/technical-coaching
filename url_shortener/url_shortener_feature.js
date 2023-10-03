@@ -8,6 +8,7 @@ class UrlShortenerController {
         if (url.startsWith("/url/retrieve")) {
             const urlKey = keyFromShortenedUrl(params.shortenedUrl);
             const originalUrl = this.repository.findOriginalUrl(urlKey);
+            console.log(originalUrl,"THIS IS THE ORIGINAL URL");
             return {statusCode : 200, body: {originalUrl: originalUrl}};
         }
         const randomNumber = this.randomNumberGenerator.generate();

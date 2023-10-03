@@ -2,6 +2,7 @@ const http = require('http');
 const GreetController = require('./greet_feature.js');
 const {UrlShortenerController} = require('./url_shortener_feature.js');
 const RandomNumberGenerator = require("./randomNumberGenerator");
+const Repository = require("./repository");
 const hostname = '127.0.0.1';
 const port = 8080;
 
@@ -25,7 +26,7 @@ server.listen(port, hostname, () => {
 function findController(req) {
     if (req.url.startsWith('/greet')) {
         return greetController;
-    } else if(req.url.startsWith('/url/shorten')){
+    } else if(req.url.startsWith('/url/shorten') || req.url.startsWith('/url/retrieve')){
         return urlShortenerController;
     }else {
         return notFoundController;
@@ -42,7 +43,7 @@ const notFoundController = new NotFoundController();
 
 const greetController = new GreetController();
 
-const urlShortenerController = new UrlShortenerController(new RandomNumberGenerator());
+const urlShortenerController = new UrlShortenerController(new RandomNumberGenerator(), new Repository());
 
 function parseQueryString(req) {
     const parsed_url = new URL(req.url, `http://${hostname}:${port}`);
@@ -60,9 +61,8 @@ function parsePayload(req) {
         req.on('data', (chunks) => {
             requestBody.push(chunks);
         });
-
         req.on('end', () => {
-            resolve(Buffer.concat(requestBody).toString());
+            resolve(JSON.parse(Buffer.concat(requestBody).toString()));
         });
     })
 }
