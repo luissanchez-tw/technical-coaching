@@ -1,6 +1,6 @@
 const http = require('http');
 const GreetController = require('./greet_feature.js');
-const UrlShortenerController = require('./url_shortener_feature.js');
+const {UrlShortenerController} = require('./url_shortener_feature.js');
 const RandomNumberGenerator = require("./randomNumberGenerator");
 const hostname = '127.0.0.1';
 const port = 8080;

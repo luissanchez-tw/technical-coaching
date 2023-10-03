@@ -5,6 +5,11 @@ class UrlShortenerController {
     }
 
     handle(url, params, payload) {
+        if (url.startsWith("/url/retrieve")) {
+            const urlKey = keyFromShortenedUrl(params.shortenedUrl);
+            const originalUrl = this.repository.findOriginalUrl(urlKey);
+            return {statusCode : 200, body: {originalUrl: originalUrl}};
+        }
         const randomNumber = this.randomNumberGenerator.generate();
         const shortenedUrl = `https://tw.ks/${randomNumber}`;
         this.repository.save(randomNumber,payload.url);
@@ -12,4 +17,9 @@ class UrlShortenerController {
     }
 }
 
-module.exports = UrlShortenerController;
+function keyFromShortenedUrl(shortenedUrl) {
+    const urlSplitted = shortenedUrl.split("/");
+    return urlSplitted[3];
+}
+
+module.exports = {UrlShortenerController};

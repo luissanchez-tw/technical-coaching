@@ -1,11 +1,12 @@
-const UrlShortenerController = require('./url_shortener_feature.js');
+const {UrlShortenerController, keyFromShortenedUrl} = require('./url_shortener_feature.js');
 
 const randomNumberGenerator = {
     generate: jest.fn(),
 }
 
 const repository = {
-    save: jest.fn()
+    save: jest.fn(),
+    findOriginalUrl:jest.fn(),
 }
 
 const controller = new UrlShortenerController(randomNumberGenerator,repository);
@@ -40,12 +41,22 @@ describe('Shortening the url', () => {
 });
 
 describe('Retrieving the url', () => {
-    xtest('it returns 200', () => {
+    test('it returns 200', () => {
         const {statusCode} = controller.handle('/url/retrieve', {shortenedUrl: 'http://tw.ks/2345'}, {});
 
         expect(statusCode).toBe(200);
     });
 
-    xtest('it returns the original url', () => {
+    test('it returns the original url', () => {
+        const originalUrl = 'https://www.google.com';
+        const shortenedUrl ='http://tw.ks/2345';
+        const urlKey = '2345';
+        repository.findOriginalUrl.mockReturnValue(originalUrl);
+
+        const {body} = controller.handle('/url/retrieve?shortenedUrl=whatever', {shortenedUrl: shortenedUrl}, {});
+
+        expect(repository.findOriginalUrl.mock.calls.length).toEqual(1);
+        expect(repository.findOriginalUrl.mock.calls[0]).toEqual([urlKey]);
+        expect(body.originalUrl).toBe(originalUrl);
     });
 });
